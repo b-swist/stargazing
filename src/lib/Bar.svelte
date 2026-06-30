@@ -11,7 +11,7 @@
 
   let visible = $state(true);
   let query = $state("");
-  let searchbox: HTMLInputElement | undefined = $state();
+  let searchbar: HTMLInputElement | undefined = $state();
 
   type KeyHandler = Record<string, (e?: KeyboardEvent) => void>;
 
@@ -21,14 +21,14 @@
       if (isSelectionActive()) clearSelection();
 
       if (alwaysShow) return;
-      else searchbox!.blur();
+      else searchbar!.blur();
     },
   };
 
   const windowKeyHandler: KeyHandler = {
     "/": () => {
       visible = true;
-      setTimeout(() => searchbox!.focus(), transition.length);
+      setTimeout(() => searchbar!.focus(), transition.length);
     },
   };
 
@@ -50,14 +50,14 @@
     document.querySelector("input") === document.activeElement;
 
   const isSelectionActive = () =>
-    searchbox!.selectionStart !== searchbox!.selectionEnd;
+    searchbar!.selectionStart !== searchbar!.selectionEnd;
 
   function clearSelection(): void {
-    const end = searchbox!.selectionEnd;
-    searchbox!.setSelectionRange(end, end);
+    const end = searchbar!.selectionEnd;
+    searchbar!.setSelectionRange(end, end);
   }
 
-  onMount(() => searchbox!.focus());
+  onMount(() => searchbar!.focus());
 </script>
 
 <svelte:window
@@ -74,8 +74,8 @@
       {placeholder}
       bind:value={query}
       onkeydown={(e) => handleInput(e, inputKeyHandler)}
-      bind:this={searchbox}
-      onfocus={() => searchbox!.select()}
+      bind:this={searchbar}
+      onfocus={() => searchbar!.select()}
       onfocusout={() => {
         if (alwaysShow) return;
 
