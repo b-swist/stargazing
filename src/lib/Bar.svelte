@@ -5,7 +5,8 @@
   let {
     url = "https://duckduckgo.com/?q=%s",
     placeholder = "search...",
-    alwaysHideUnfocused = true,
+    alwaysHideUnfocused = false,
+    alwaysShow = false,
   } = $props();
 
   let visible = $state(true);
@@ -18,6 +19,8 @@
     Enter: search,
     Escape: () => {
       if (isSelectionActive()) clearSelection();
+
+      if (alwaysShow) return;
       else searchbox!.blur();
     },
   };
@@ -74,6 +77,8 @@
       bind:this={searchbox}
       onfocus={() => searchbox!.select()}
       onfocusout={() => {
+        if (alwaysShow) return;
+
         if (alwaysHideUnfocused || !query) visible = false;
       }}
       transition:transition={{ y: -75, duration: 750 }}
